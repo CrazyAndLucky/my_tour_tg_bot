@@ -9,6 +9,7 @@ from data import DatabaseManager
 
 load_dotenv('.env')
 BOT_TOKEN = os.getenv('BOT_TOKEN')
+ADMIN_ID = os.getenv('ADMIN_ID')
 
 
 bot = Bot(token=BOT_TOKEN, parse_mode=ParseMode.HTML)

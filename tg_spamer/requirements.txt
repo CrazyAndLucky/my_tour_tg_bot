@@ -1,0 +1,3 @@
+opentele
+python-socks[asyncio]
+aiogram

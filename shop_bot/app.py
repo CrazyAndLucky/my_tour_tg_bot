@@ -1,9 +1,7 @@
-import asyncio
-from aiogram.types import Message, CallbackQuery, ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram import html
+from aiogram.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram import filters, F
-from logging import basicConfig, INFO
 from aiogram.types.bot_command import BotCommand
-from aiogram.types.bot_command_scope_default import BotCommandScopeDefault
 from aiogram.fsm.context import FSMContext
 
 import shop_bot.handlers
@@ -19,14 +17,7 @@ start_message = '''
 
 # Запуск бота
 @dp.message(filters.Command('shop'))
-async def cmd_start_msg(message: Message, state: FSMContext):     
-     await bot.set_my_commands(
-          commands=[
-               BotCommand(command='start', description='Перезапустить бота'),
-               BotCommand(command='shop', description='Открыть магазин')
-          ]
-     )
-     
+async def cmd_start_msg(message: Message, state: FSMContext):          
      for index, value in enumerate(admins):
           if message.from_user.id == value:
                try:
@@ -40,7 +31,7 @@ async def cmd_start_msg(message: Message, state: FSMContext):
                
      await state.clear() # Очищаем статус, если он был
      
-     text = f'Выберите как открыть магазин, в режиме админа или пользователя\n\n(если потом захотите поменять, просто перезапустите бота)'
+     text = f'Выберите как открыть магазин, в режиме админа или пользователя\n{html.italic("если потом захотите поменять, введите команду /shop или просто перезапустите бота")}'
      await message.answer(
           text=text,
           reply_markup=InlineKeyboardMarkup(inline_keyboard=[
@@ -53,14 +44,7 @@ async def cmd_start_msg(message: Message, state: FSMContext):
 
 
 @dp.callback_query(F.data == 'shop_bot')
-async def cmd_start(query: CallbackQuery, state: FSMContext):
-     await bot.set_my_commands(
-          commands=[
-               BotCommand(command='start', description='Перезапустить бота'),
-               BotCommand(command='shop', description='Открыть магазин')
-               ]
-     )
-     
+async def cmd_start(query: CallbackQuery, state: FSMContext):    
      for index, value in enumerate(admins):
           if query.message.from_user.id == value:
                try:
@@ -74,7 +58,7 @@ async def cmd_start(query: CallbackQuery, state: FSMContext):
 
      await state.clear() # Очищаем статус, если он был
      
-     text = f'Выберите как открыть магазин, в режиме админа или пользователя\n\n(если потом захотите поменять, просто перезапустите бота)'
+     text = f'Выберите как открыть магазин, в режиме админа или пользователя\n{html.italic("если потом захотите поменять, введите команду /shop или просто перезапустите бота")}'
      await query.message.answer(
           text=text,
           reply_markup=InlineKeyboardMarkup(inline_keyboard=[
